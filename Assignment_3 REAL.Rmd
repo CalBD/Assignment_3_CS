@@ -1,0 +1,70 @@
+---
+title: "Assignment_3 CS REAL"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+2. Importing csv file and naming it rna_counts
+```{r}
+rna_counts <- read.csv("eXpress_dm_counts.csv", header = TRUE, stringsAsFactors = FALSE)
+```
+2.Coding a function that can take the mean of individual column, with the additional option of log2transformation. 
+```{r}
+col_mean_cs1 <- function(x, log2transform = FALSE) {
+  if(log2transform == FALSE) {
+    mean(rna_counts[, x])
+  } else {
+    loged <- log2(rna_counts[, x])
+    loged[!is.finite(loged)] <- NA
+    mean(loged, na.rm= TRUE)
+  }}
+```
+2.Demonstration on Column 1 LOG, 
+```{r}
+col_mean_cs1(2,TRUE)
+col_mean_cs1(2,FALSE)
+col_mean_cs1(5,TRUE)
+col_mean_cs1(5,FALSE)
+```
+3. Loop to generate a vector containing mean expresion values for each column 
+```{r}
+my_vector = c()
+ for(i in 2:ncol(rna_counts)) {
+   my_vector[i-1] = col_mean_cs1(i,FALSE)
+   names(my_vector)[i-1] = colnames(rna_counts)[i]
+ }
+View(my_vector)
+```
+4. lapply
+```{r}
+my_vector_apply =c()
+unlist(lapply(2:ncol(rna_counts), col_mean_cs1))
+
+```
+
+5. lapply function is easier 
+
+6.
+7. 
+8. 
